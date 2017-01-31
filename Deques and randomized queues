@@ -1,0 +1,153 @@
+import java.util.Iterator;
+
+public class Deque<Item> implements Iterable<Item> {
+	private Node front,rear;
+	
+	public Deque() {
+		front = rear = null;
+	}
+	
+	private class Node{
+		Item item;
+		Node next;
+	}
+	
+	public boolean isEmpty() {
+		return front == null;
+	}
+	
+	public void addFirst(Item item) {
+		if(item == null)
+			throw new NullPointerException();
+		Node node = new Node();
+		node.item = item;
+		if(isEmpty()) {
+			node.next = null;
+			front = rear = node;
+		}
+		else {
+			Node oldFront = front;
+			node.next = oldFront;
+			front = node;
+		}
+	}
+	
+	public void addLast(Item item) {
+		if(item == null) {
+			throw new NullPointerException();
+		}
+		Node node = new Node();
+		node.item = item;
+		if(isEmpty()) {
+			node.next = null;
+			front = rear = node;
+		}
+		else {
+			node.next = null;
+			Node oldRear = rear;
+			oldRear.next = node;
+			rear = node;
+		}
+	}
+	
+	public Item removeFirst() {
+		if(isEmpty())
+			throw new UnsupportedOperationException();
+		if(size() == 1) {
+			Item temp = front.item;
+			front = rear = null;
+			return temp;
+		}
+		else {
+		Item temp = front.item;
+		front = front.next;
+		return temp;
+		}
+	}
+	
+	public Item removeLast() {
+		if(isEmpty())
+			throw new UnsupportedOperationException();
+		if(size() == 1) {
+			Item temp = rear.item;
+			front = rear = null;
+			return temp;
+		}
+		else {
+		Item temp = rear.item;
+		Node Temp = front;
+		while(Temp.next.next!=null)
+			Temp = Temp.next;
+		Temp.next = null;
+		rear = Temp;
+		return temp;
+		}
+	}
+	
+	public void display() {
+		if(size() == 0)
+			System.out.println(0);
+		else {
+		Node temp = front;
+		while(temp!=null) {
+			System.out.print(temp.item);
+		    temp = temp.next;
+		}
+		System.out.println();
+		}
+	}
+
+	public Iterator<Item> iterator() {
+		Iterator<Item> it = new Iterator<Item>() {
+			Node pointer = front;
+			public boolean hasNext() {
+				return front.next!=null;
+			}
+
+			public Item next() {
+				Item temp=null;
+                if(hasNext()){
+                	temp = pointer.item;
+                    pointer = pointer.next;
+                }
+                return temp;
+			}
+			
+		};
+		return it;
+	}
+	
+	public int size() {
+		Node temp = front;
+		int count=0;
+		while(temp!=null) {
+			temp=temp.next;
+			count+=1;
+		}
+		return count;
+	}
+	
+	public static void main(String[] args) {
+		Deque<Integer> dq = new Deque<Integer>();
+//		dq.addFirst(1);
+//		dq.addFirst(2);
+//		dq.addFirst(3);
+//		dq.addLast(4);
+//		dq.display();
+//		dq.removeLast();
+//		dq.display();
+//		dq.removeLast();
+//		dq.display();
+//		dq.removeLast();
+//		dq.display();
+//		dq.addLast(5);
+//		dq.addFirst(6);
+//        dq.display();
+		dq.addFirst(1);
+      	dq.display();
+		dq.removeLast();
+		dq.display();
+        
+		
+	}
+}
