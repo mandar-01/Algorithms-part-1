@@ -84,7 +84,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 	}
 	
-	public void display() {
+	/*public void display() {
 		if(size() == 0)
 			System.out.println(0);
 		else {
@@ -95,7 +95,7 @@ public class Deque<Item> implements Iterable<Item> {
 		}
 		System.out.println();
 		}
-	}
+	}*/
 
 	public Iterator<Item> iterator() {
 		Iterator<Item> it = new Iterator<Item>() {
