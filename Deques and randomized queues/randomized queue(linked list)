@@ -1,0 +1,128 @@
+import java.util.Iterator;
+import edu.princeton.cs.algs4.StdRandom;
+
+public class RandomizedQueue<Item> implements Iterable<Item> {
+	private Node front,rear;
+	
+	public RandomizedQueue() {
+		front = rear = null;
+	}
+	
+	private class Node{
+		Item item;
+		Node next;
+	}
+	
+	public boolean isEmpty() {
+		return front == null;
+	}
+	
+	public void enqueue(Item item) {
+		if(item == null) {
+			throw new NullPointerException();
+		}
+		Node node = new Node();
+		node.item = item;
+		if(isEmpty()) {
+			node.next = null;
+			front = rear = node;
+		}
+		else {
+			node.next = null;
+            rear.next = node;
+			rear = node;
+		}
+	}
+	
+	public Item dequeue() {
+		if(isEmpty())
+			throw new UnsupportedOperationException();
+		if(size() == 1) {
+			Item temp = rear.item;
+			front = rear = null;
+			return temp;
+		}
+		else {
+		//int position = StdRandom.uniform(size());
+		int position=0;
+		System.out.println(position);
+		Node Temp = front,prev = front;
+		int count=0;
+		while(count!=position){
+			prev=Temp;
+			Temp = Temp.next;
+			count++;
+		}
+        prev.next = Temp.next;
+		return Temp.item;
+		}
+	}
+	
+	public void display() {
+		if(size() == 0)
+			System.out.println(0);
+		else {
+		Node temp = front;
+		while(temp!=null) {
+			System.out.print(temp.item);
+		    temp = temp.next;
+		}
+		System.out.println();
+		}
+	}
+
+	public Iterator<Item> iterator() {
+		Iterator<Item> it = new Iterator<Item>() {
+			Node pointer = front;
+			public boolean hasNext() {
+				return pointer!=null;
+			}
+
+			public Item next() {
+				Item temp=null;
+                if(hasNext()){
+                	temp = pointer.item;
+                    pointer = pointer.next;
+                }
+                return temp;
+			}
+			
+		};
+		return it;
+	}
+	
+	public Item sample() {
+		int position = StdRandom.uniform(size());
+		Node Temp = front;
+		int count=0;
+		while(count!=position){
+			Temp = Temp.next;
+			count++;
+		}
+		return Temp.item;
+	}
+	
+	public int size() {
+		Node temp = front;
+		int count=0;
+		while(temp!=null) {
+			temp=temp.next;
+			count+=1;
+		}
+		return count;
+	}
+	
+	public static void main(String[] args) {
+		RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+        rq.enqueue(1);
+        rq.enqueue(2);
+        rq.enqueue(3);
+        rq.display();
+        System.out.println(rq.size());
+        rq.dequeue();
+        rq.display();
+//      	Iterator i = rq.iterator();
+//      	while(i.hasNext())
+//      		System.out.println(i.next());
+	}
+}
