@@ -1,0 +1,112 @@
+import java.util.*;
+
+import edu.princeton.cs.algs4.StdRandom;
+
+public class RandomizedQueue<Item> implements Iterable<Item> {
+     
+	Item[] a;
+	int front,rear;
+	 public RandomizedQueue() {
+		 a = (Item[]) new Object[1];
+		 front = rear = -1;
+	 }
+	 
+	 public boolean isEmpty() {
+		 if(size() == 0)
+			 return true;
+		 return false;
+	 }
+	 
+	 public int size() {
+		 return rear-front;
+	 }
+	 
+	 public void enqueue(Item item) {
+		 if(item == null)
+			 throw new NullPointerException();
+		 if(a.length >= size())
+			 resize(2*a.length);
+		 //System.out.println("length :"+a.length);
+		 if(size() == 0) {
+			 a[++rear] = item;
+			 front=0;
+		 }
+		 else 
+		     a[++rear] = item;
+	 }
+	 
+	 private void resize(int num) {
+		 Item[] b = (Item[]) new Object[num];
+		 for(int i=0;i<a.length;i++)
+			 b[i] = a[i];
+		 a=b;
+	 }
+	 
+	 public Item dequeue() {
+		 //System.out.println("front :"+front);
+		 if(size() ==0 || front>rear )
+			 throw new NoSuchElementException();
+			 //System.out.println("array empty");
+		 if(size() == 1) {
+			 Item temp = a[front];
+			 a[front] = null;
+			 front = rear = -1;
+			 return temp;
+		 }
+		 else {
+		 Item temp = a[front];
+		 //System.out.println("deleted :"+temp);
+		 a[front] = null;
+		 front++;
+		 if(size()>0 && size()== a.length/4)
+			 resize(a.length/2);
+		 return temp;
+		 }
+	 }
+	 
+	 public Item sample() {
+		 if(size() ==0 )
+			 throw new NoSuchElementException();
+		 else
+		 return a[StdRandom.uniform(size()-1)];
+	 }
+	 
+	 public Iterator<Item> iterator() {
+		 Iterator<Item> it = new Iterator<Item>() {
+			 int dummyFront = front;
+			 int dummyRear = rear;
+				public boolean hasNext() {
+					if(a[dummyRear]!=null)
+						return true;
+					return false;
+				}
+				
+				public Item next() {
+					return a[++dummyFront];
+				}
+		 };
+		 return it;
+	 }
+	 
+	 public void display() {
+		 if(size() == 0)
+			 System.out.println("empty");
+		 else {
+		 for(int i=front;i<=size();i++) {
+			 System.out.println(a[i]);
+		 }
+		 }
+	 }
+	 
+	 public static void main(String[] args) {
+		 RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+		 //System.out.println(rq.size());
+         
+         
+//		 Iterator i = rq.iterator();
+//		 while(i.hasNext())
+//			 System.out.println(i.next());
+	 }
+	 
+
+}
